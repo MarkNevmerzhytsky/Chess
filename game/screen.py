@@ -11,7 +11,7 @@ class Screen:
         while True:
             self.screen.fill((100, 100, 100))
 
-            self.screen.blit(pygame.image.load("C:/Users/Artem/PycharmProjects/python/Chess/images/bb.png"), (100, 100))
+            self.screen.blit(pygame.image.load("../images/bb.png"), (100, 100))
             pygame.display.update()
 
             for event in pygame.event.get():
