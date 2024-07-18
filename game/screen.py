@@ -9,6 +9,7 @@ class Screen:
         pygame.init()
         pygame.display.set_caption('Chess')
         self.screen = pygame.display.set_mode((width, height))
+        self.game = Game()
         self.matrix = Game().field
 
     def draw(self):
@@ -52,7 +53,6 @@ class Screen:
                     if current_element:
                         self.screen.blit(pygame.image.load(f"./images/{current_element}.png"), (column * 100, row * 100))
 
-            pygame.display.update()
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -65,4 +65,16 @@ class Screen:
                     y //= 100
                     clicked_figure = self.matrix[y][x]
                     print(clicked_figure)
+
+                    legal_moves = self.game.get_legal_moves(clicked_figure, x, y)
+
+                    for legal_move in legal_moves:
+                        self.mark_field(legal_move)
+
+            pygame.display.update()
+
+    def mark_field(self, square):
+        self.screen.fill((85, 128, 95), pygame.Rect(square[0] * 100, square[1] * 100, 100, 100))
+
+
 
