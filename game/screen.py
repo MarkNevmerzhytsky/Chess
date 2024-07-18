@@ -57,6 +57,10 @@ class Screen:
                     pygame.quit()
                     break
 
-
-
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    x, y = pygame.mouse.get_pos()
+                    x //= 100
+                    y //= 100
+                    clicked_figure = self.matrix[y][x]
+                    print(clicked_figure)
 
