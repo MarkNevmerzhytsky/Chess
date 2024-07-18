@@ -12,22 +12,43 @@ class Screen:
     def draw(self):
         while True:
             self.screen.fill((100, 100, 100))
-            for i in range(8):
-                for s in range(8):
-                    self.screen.blit(pygame.image.load("./images/bk.png"), (i * 100, s * 100))
+            for row in range(8):
+                for column in range(8):
+                    # Check which figure
+                    current_element_id = self.matrix[row][column]
+                    current_element = ""
 
-            # self.screen.blit(pygame.image.load("./images/bb.png"), (100, 100))
-            # self.screen.blit(pygame.image.load("./images/bk.png"), (90, 90))
-            # self.screen.blit(pygame.image.load("./images/bn.png"), (80, 80))
-            # self.screen.blit(pygame.image.load("./images/bp.png"), (70, 70))
-            # self.screen.blit(pygame.image.load("./images/bq.png"), (60, 60))
-            # self.screen.blit(pygame.image.load("./images/br.png"), (50, 50))
-            # self.screen.blit(pygame.image.load("./images/wb.png"), (40, 40))
-            # self.screen.blit(pygame.image.load("./images/wk.png"), (30, 30))
-            # self.screen.blit(pygame.image.load("./images/wn.png"), (20, 20))
-            # self.screen.blit(pygame.image.load("./images/wp.png"), (110, 110))
-            # self.screen.blit(pygame.image.load("./images/wq.png"), (10, 10))
-            # self.screen.blit(pygame.image.load("./images/wr.png"), (0, 0))
+
+                    # Black pieces
+                    if current_element_id == 1:
+                        current_element = "br"
+                    elif current_element_id == 2:
+                        current_element = "bn"
+                    elif current_element_id == 3:
+                        current_element = "bb"
+                    elif current_element_id == 4:
+                        current_element = "bq"
+                    elif current_element_id == 5:
+                        current_element = "bk"
+                    elif current_element_id == 7:
+                        current_element = "bp"
+
+                    # White pieces
+                    if current_element_id == 11:
+                        current_element = "wr"
+                    elif current_element_id == 12:
+                        current_element = "wn"
+                    elif current_element_id == 13:
+                        current_element = "wb"
+                    elif current_element_id == 14:
+                        current_element = "wq"
+                    elif current_element_id == 15:
+                        current_element = "wk"
+                    elif current_element_id == 8:
+                        current_element = "wp"
+
+                    if current_element:
+                        self.screen.blit(pygame.image.load(f"./images/{current_element}.png"), (column * 100, row * 100))
 
             pygame.display.update()
 
