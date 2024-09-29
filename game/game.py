@@ -14,6 +14,10 @@ class Game:
         if piece_id == 8:
             possible_moves.append([x, y - 1])
         elif piece_id == 7:
-            pass
+            possible_moves.append([x, y + 1])
 
         return possible_moves
+
+    def move(self, figure, goal):
+        self.field[goal[0]][goal[1]] = self.field[figure[0]][figure[1]]
+        self.field[figure[0]][figure[1]] = 0

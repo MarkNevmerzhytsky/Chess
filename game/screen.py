@@ -9,8 +9,12 @@ class Screen:
         pygame.init()
         pygame.display.set_caption('Chess')
         self.screen = pygame.display.set_mode((width, height))
+        self.width = width
+        self.height = height
         self.game = Game()
         self.matrix = Game().field
+        self.legal_moves = []
+        self.marked_figure = None
 
     def draw(self):
         while True:
@@ -20,7 +24,6 @@ class Screen:
                     # Check which figure
                     current_element_id = self.matrix[row][column]
                     current_element = ""
-
 
                     # Black pieces
                     if current_element_id == 1:
@@ -51,8 +54,11 @@ class Screen:
                         current_element = "wp"
 
                     if current_element:
-                        self.screen.blit(pygame.image.load(f"./images/{current_element}.png"), (column * 100, row * 100))
+                        self.screen.blit(pygame.image.load(f"./images/{current_element}.png"),
+                                         (column * self.width / 8, row * self.height / 8))
 
+            for legal_move in self.legal_moves:
+                self.mark_field(legal_move)
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -63,18 +69,19 @@ class Screen:
                     x, y = pygame.mouse.get_pos()
                     x //= 100
                     y //= 100
+
+                    if [x, y] in self.legal_moves:
+                        self.game.move(self.marked_figure, [y, x])
+
                     clicked_figure = self.matrix[y][x]
                     print(clicked_figure)
+                    self.marked_figure = [y, x]
 
-                    legal_moves = self.game.get_legal_moves(clicked_figure, x, y)
+                    self.legal_moves = self.game.get_legal_moves(clicked_figure, x, y)
 
-                    for legal_move in legal_moves:
-                        self.mark_field(legal_move)
+
 
             pygame.display.update()
 
     def mark_field(self, square):
         self.screen.fill((85, 128, 95), pygame.Rect(square[0] * 100, square[1] * 100, 100, 100))
-
-
-
