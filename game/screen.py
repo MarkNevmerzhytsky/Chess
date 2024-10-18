@@ -18,6 +18,7 @@ class Screen:
     def draw(self):
         while True:
             self.screen.fill((100, 100, 100))
+            self.draw_field()
             for row in range(8):
                 for column in range(8):
                     # Check which figure
@@ -82,3 +83,11 @@ class Screen:
 
     def mark_field(self, square):
         self.screen.fill((85, 128, 95), pygame.Rect(square[0] * 100, square[1] * 100, 100, 100))
+
+    def draw_field(self):
+        for row in range(8):
+            for column in range(8):
+                if column % 2 == 0 and row % 2 == 0 or (column % 2 != 0 and row % 2 != 0):
+                    self.screen.fill((64, 38, 4), pygame.Rect(row * 100, column * 100, 100, 100))
+                else:
+                    self.screen.fill((209, 125, 16), pygame.Rect(row * 100, column * 100, 100, 100))
