@@ -82,7 +82,7 @@ class Screen:
             pygame.display.update()
 
     def mark_field(self, square):
-        self.screen.fill((85, 128, 95), pygame.Rect(square[0] * 100, square[1] * 100, 100, 100))
+        pygame.draw.circle(self.screen, (85, 128, 95), (square[0] * 100 + 50, square[1] * 100 + 50), 20)
 
     def draw_field(self):
         for row in range(8):
