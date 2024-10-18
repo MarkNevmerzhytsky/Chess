@@ -12,7 +12,6 @@ class Screen:
         self.width = width
         self.height = height
         self.game = Game()
-        self.matrix = Game().field
         self.legal_moves = []
         self.marked_figure = None
 
@@ -22,7 +21,7 @@ class Screen:
             for row in range(8):
                 for column in range(8):
                     # Check which figure
-                    current_element_id = self.matrix[row][column]
+                    current_element_id = self.game.field[row][column]
                     current_element = ""
 
                     # Black pieces
@@ -52,7 +51,6 @@ class Screen:
                         current_element = "wk"
                     elif current_element_id == 8:
                         current_element = "wp"
-
                     if current_element:
                         self.screen.blit(pygame.image.load(f"./images/{current_element}.png"),
                                          (column * self.width / 8, row * self.height / 8))
@@ -72,14 +70,13 @@ class Screen:
 
                     if [x, y] in self.legal_moves:
                         self.game.move(self.marked_figure, [y, x])
+                        self.legal_moves = []
 
-                    clicked_figure = self.matrix[y][x]
-                    print(clicked_figure)
-                    self.marked_figure = [y, x]
-
-                    self.legal_moves = self.game.get_legal_moves(clicked_figure, x, y)
-
-
+                    else:
+                        clicked_figure = self.game.field[y][x]
+                        print(clicked_figure)
+                        self.marked_figure = [y, x]
+                        self.legal_moves = self.game.get_legal_moves(clicked_figure, x, y)
 
             pygame.display.update()
 
