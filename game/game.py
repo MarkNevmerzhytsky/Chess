@@ -20,7 +20,7 @@ class Game:
                 for column in range(8):
                     current_element = self.field[column][row]
                     if current_element == 0:
-                        possible_moves.append([column, row])
+                        possible_moves.append([row, column])
 
         return possible_moves
 
