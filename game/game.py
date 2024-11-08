@@ -3,7 +3,7 @@ class Game:
         self.field = [[1, 2, 3, 4, 5, 3, 2, 1],
                       [7, 7, 7, 7, 7, 7, 7, 7],
                       [0, 0, 0, 0, 0, 0, 0, 0],
-                      [0, 0, 0, 0, 0, 0, 0, 0],
+                      [0, 0, 0, 2, 0, 0, 0, 0],
                       [0, 0, 0, 0, 0, 0, 0, 0],
                       [0, 0, 0, 0, 0, 0, 0, 0],
                       [8, 8, 8, 8, 8, 8, 8, 8],
@@ -21,11 +21,21 @@ class Game:
                     current_element = self.field[column][row]
                     if current_element == 0:
                         possible_moves.append([row, column])
+        if piece_id == 2 or piece_id == 12:
+            possible_moves.append([x, y + 2])
+            possible_moves.append([x, y - 2])
+            possible_moves.append([x + 2, y])
+            possible_moves.append([x - 2, y])
+
+            print()
 
         return possible_moves
 
     def move(self, figure, goal):
+        if self.field[figure[0]][figure[1]] == 2:
+            print(True)
         print(self.field)
         self.field[goal[0]][goal[1]] = self.field[figure[0]][figure[1]]
         self.field[figure[0]][figure[1]] = 0
         print(self.field)
+
