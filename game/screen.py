@@ -72,12 +72,14 @@ class Screen:
                     if [x, y] in self.legal_moves:
                         self.game.move(self.marked_figure, [y, x])
                         self.legal_moves = []
-
-                    else:
+                    elif self.marked_figure != [y, x]:
                         clicked_figure = self.game.field[y][x]
                         print(clicked_figure)
                         self.marked_figure = [y, x]
                         self.legal_moves = self.game.get_legal_moves(clicked_figure, x, y)
+                    else:
+                        self.legal_moves = []
+                        self.marked_figure = None
 
             pygame.display.update()
 
