@@ -10,10 +10,12 @@ class Game:
                       [11, 12, 13, 14, 15, 13, 12, 11]]
 
         self.turn = "BLACK"
+        self.turn_counter = 0
 
     def get_legal_moves(self, piece_id, x, y):
+        figure_color = "BLACK" if piece_id <= 7 else "WHITE"
         possible_moves = []
-        if (piece_id >= 8 and self.turn == "BLACK") or (piece_id <= 7 and self.turn == "WHITE"):
+        if (figure_color == "WHITE" and self.turn == "BLACK") or (figure_color == "BLACK" and self.turn == "WHITE"):
             return []
 
         if piece_id == 8:
@@ -27,12 +29,28 @@ class Game:
                     if current_element == 0:
                         possible_moves.append([row, column])
         if piece_id == 2 or piece_id == 12:
-            possible_moves.append([x, y + 2])
-            possible_moves.append([x, y - 2])
-            possible_moves.append([x + 2, y])
-            possible_moves.append([x - 2, y])
+            if y + 2 < 8:
+                possible_moves.append([x, y + 2])
+            if y - 2 >= 0:
+                possible_moves.append([x, y - 2])
+            if x + 2 < 8:
+                possible_moves.append([x + 2, y])
+            if x - 2 >= 0:
+                possible_moves.append([x - 2, y])
 
             print()
+
+        moves_to_remove = []
+        for possible_move in possible_moves:
+            destination_color = "BLACK" if 0 < self.field[possible_move[1]][possible_move[0]] <= 7 else "WHITE" if self.field[possible_move[1]][possible_move[0]] >= 8 else "BLANK"
+
+            if (figure_color == "BLACK" and destination_color == "BLACK") or (
+                    figure_color == "WHITE" and destination_color == "WHITE"):
+                moves_to_remove.append(possible_move)
+
+        print(moves_to_remove)
+        for move in moves_to_remove:
+            possible_moves.remove(move)
 
         return possible_moves
 
@@ -52,8 +70,12 @@ class Game:
         self.field[goal[0]][goal[1]] = self.field[figure[0]][figure[1]]
         self.field[figure[0]][figure[1]] = 0
 
-        if self.turn == "WHITE":
-            self.turn = "BLACK"
-        else:
-            self.turn = "WHITE"
+        self.turn_counter += 1
 
+        if self.turn_counter == 2:
+            self.turn_counter = 0
+
+            if self.turn == "WHITE":
+                self.turn = "BLACK"
+            else:
+                self.turn = "WHITE"
