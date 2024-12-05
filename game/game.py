@@ -37,8 +37,19 @@ class Game:
                 possible_moves.append([x + 2, y])
             if x - 2 >= 0:
                 possible_moves.append([x - 2, y])
-
-            print()
+        if piece_id == 1 or piece_id == 11:
+            for i in range(8):
+                print("Hello", self.field[i][x])
+                current_element = self.field[i][x]
+                if current_element == 1 or current_element == 11:
+                    continue
+                if current_element == 0:
+                    possible_moves.append([x, i])
+                elif current_element >= 8 and figure_color == "WHITE":
+                    break
+                elif current_element <= 7 and figure_color == "BLACK":
+                    break
+                print()
 
         moves_to_remove = []
         for possible_move in possible_moves:
