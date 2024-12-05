@@ -38,22 +38,15 @@ class Game:
             if x - 2 >= 0:
                 possible_moves.append([x - 2, y])
         if piece_id == 1 or piece_id == 11:
-            for i in range(8):
-                print("Hello", self.field[i][x])
-                current_element = self.field[i][x]
-                if current_element == 1 or current_element == 11:
-                    continue
-                if current_element == 0:
-                    possible_moves.append([x, i])
-                elif current_element >= 8 and figure_color == "WHITE":
-                    break
-                elif current_element <= 7 and figure_color == "BLACK":
-                    break
-                print()
+            possible_moves = self.get_vertical_moves(x, y, figure_color, 8, 1)
+            possible_moves.extend(self.get_vertical_moves(x, y, figure_color, -1, -1))
+            #possible_moves.extend(self.get_horizontal_moves(x, y, figure_color, 8, 1))
+            #possible_moves.extend(self.get_horizontal_moves(x, y, figure_color, -1, -1))
 
         moves_to_remove = []
         for possible_move in possible_moves:
-            destination_color = "BLACK" if 0 < self.field[possible_move[1]][possible_move[0]] <= 7 else "WHITE" if self.field[possible_move[1]][possible_move[0]] >= 8 else "BLANK"
+            destination_color = "BLACK" if 0 < self.field[possible_move[1]][possible_move[0]] <= 7 else "WHITE" if \
+                self.field[possible_move[1]][possible_move[0]] >= 8 else "BLANK"
 
             if (figure_color == "BLACK" and destination_color == "BLACK") or (
                     figure_color == "WHITE" and destination_color == "WHITE"):
@@ -64,6 +57,36 @@ class Game:
             possible_moves.remove(move)
 
         return possible_moves
+
+    def get_vertical_moves(self, x, y, figure_color, j, direction):
+        possible_moves = []
+        for i in range(y, j, direction):
+            current_element = self.field[x][i]
+            if i == y:
+                continue
+            if current_element == 0:
+                possible_moves.append([x, i])
+            elif current_element >= 8 and figure_color == "WHITE" or (current_element <= 7 and figure_color == "BLACK"):
+                break
+            elif current_element >= 8 and figure_color == "BLACK" or (current_element <= 7 and figure_color == "WHITE"):
+                possible_moves.append([x, i])
+                break
+        return possible_moves
+
+    # def get_horizontal_moves(self, x, y, figure_color, j, direction):
+    #     possible_moves = []
+    #     for i in range(x, j, direction):
+    #         current_element = self.field[i][x]
+    #         if i == x:
+    #             continue
+    #         if current_element == 0:
+    #             possible_moves.append([i, y])
+    #         elif current_element >= 8 and figure_color == "WHITE" or (current_element <= 7 and figure_color == "BLACK"):
+    #             break
+    #         elif current_element >= 8 and figure_color == "BLACK" or (current_element <= 7 and figure_color == "WHITE"):
+    #             possible_moves.append([i, y])
+    #             break
+    #     return possible_moves
 
     def move(self, figure, goal):
         if self.field[figure[0]][figure[1]] in [2, 12]:
