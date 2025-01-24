@@ -42,6 +42,8 @@ class Game:
             possible_moves.extend(self.get_vertical_moves(x, y, -1))
             possible_moves.extend(self.get_horizontal_moves(x, y, 1))
             possible_moves.extend(self.get_horizontal_moves(x, y, -1))
+        if piece_id == 3 or piece_id == 13:
+            possible_moves = self.diagonal_moves(x, y)
 
         moves_to_remove = []
         for possible_move in possible_moves:
@@ -52,9 +54,82 @@ class Game:
                     figure_color == "WHITE" and destination_color == "WHITE"):
                 moves_to_remove.append(possible_move)
 
-        print(moves_to_remove)
+        # print(moves_to_remove)
         for move in moves_to_remove:
             possible_moves.remove(move)
+
+        return possible_moves
+
+    def diagonal_moves(self, x, y):
+        possible_moves = []
+        if self.field[y][x] <= 7:
+            figure_color = "BLACK"
+        else:
+            figure_color = "WHITE"
+
+        current_y = y
+        # Top Right
+        for i in range(x + 1, 8):
+            current_y -= 1
+            if current_y >= 0 and current_y < 8:
+                current_element = self.field[current_y][i]
+                if current_element == 0:
+                    possible_moves.append([i, current_y])
+                elif current_element >= 8 and figure_color == "WHITE" or (
+                        current_element <= 7 and figure_color == "BLACK"):
+                    break
+                elif current_element >= 8 and figure_color == "BLACK" or (
+                        current_element <= 7 and figure_color == "WHITE"):
+                    possible_moves.append([i, current_y])
+                    break
+
+        current_y = y
+        # Top Left
+        for i in range(x - 1, -1, -1):
+            current_y -= 1
+            if current_y >= 0 and current_y < 8:
+                current_element = self.field[current_y][i]
+                if current_element == 0:
+                    possible_moves.append([i, current_y])
+                elif current_element >= 8 and figure_color == "WHITE" or (
+                        current_element <= 7 and figure_color == "BLACK"):
+                    break
+                elif current_element >= 8 and figure_color == "BLACK" or (
+                        current_element <= 7 and figure_color == "WHITE"):
+                    possible_moves.append([i, current_y])
+                    break
+
+        current_y = y
+        # Bottom Left
+        for i in range(x - 1, -1, -1):
+            current_y += 1
+            if current_y >= 0 and current_y < 8:
+                current_element = self.field[current_y][i]
+                if current_element == 0:
+                    possible_moves.append([i, current_y])
+                elif current_element >= 8 and figure_color == "WHITE" or (
+                        current_element <= 7 and figure_color == "BLACK"):
+                    break
+                elif current_element >= 8 and figure_color == "BLACK" or (
+                        current_element <= 7 and figure_color == "WHITE"):
+                    possible_moves.append([i, current_y])
+                    break
+
+        current_y = y
+        # Bottom Right
+        for i in range(x + 1, 8):
+            current_y += 1
+            if current_y >= 0 and current_y < 8:
+                current_element = self.field[current_y][i]
+                if current_element == 0:
+                    possible_moves.append([i, current_y])
+                elif current_element >= 8 and figure_color == "WHITE" or (
+                        current_element <= 7 and figure_color == "BLACK"):
+                    break
+                elif current_element >= 8 and figure_color == "BLACK" or (
+                        current_element <= 7 and figure_color == "WHITE"):
+                    possible_moves.append([i, current_y])
+                    break
 
         return possible_moves
 
@@ -103,7 +178,7 @@ class Game:
     def move(self, figure, goal):
         if self.field[figure[0]][figure[1]] in [2, 12]:
             direction = [goal[0] - figure[0], goal[1] - figure[1]]
-            print(direction)
+            # print(direction)
             if direction[0] == -2:
                 self.field[goal[0] + 1][goal[1]] = 0
             elif direction[0] == 2:
