@@ -11,8 +11,11 @@ class Game:
 
         self.turn = "BLACK"
         self.turn_counter = 0
+        self.game_active = True
 
     def get_legal_moves(self, piece_id, x, y):
+        if not self.game_active:
+            return []
         figure_color = "BLACK" if piece_id <= 7 else "WHITE"
         possible_moves = []
         if (figure_color == "WHITE" and self.turn == "BLACK") or (figure_color == "BLACK" and self.turn == "WHITE"):
@@ -194,6 +197,9 @@ class Game:
             elif direction[1] == 2:
                 self.field[goal[0]][goal[1] - 1] = 0
 
+        if self.field[goal[0]][goal[1]] in [5 , 15]:
+            print(self.turn, " has won the game!")
+            self.game_active = False
         self.field[goal[0]][goal[1]] = self.field[figure[0]][figure[1]]
         self.field[figure[0]][figure[1]] = 0
 
