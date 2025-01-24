@@ -44,6 +44,12 @@ class Game:
             possible_moves.extend(self.get_horizontal_moves(x, y, -1))
         if piece_id == 3 or piece_id == 13:
             possible_moves = self.diagonal_moves(x, y)
+        if piece_id == 4 or piece_id == 14:
+            possible_moves = self.diagonal_moves(x, y)
+            possible_moves.extend(self.get_vertical_moves(x, y, -1))
+            possible_moves.extend(self.get_horizontal_moves(x, y, 1))
+            possible_moves.extend(self.get_horizontal_moves(x, y, -1))
+            possible_moves.extend(self.get_vertical_moves(x, y, 1))
 
         moves_to_remove = []
         for possible_move in possible_moves:
